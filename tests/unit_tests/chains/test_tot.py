@@ -4,6 +4,7 @@ from typing import Tuple
 
 import pytest
 
+from langchain.callbacks import StdOutCallbackHandler
 from langchain.chains.tot.base import ToTChain
 from langchain.chains.tot.checker import ToTChecker
 from langchain.chains.tot.controller import ToTController
@@ -59,6 +60,9 @@ def test_solve_sudoku(fake_llm_sudoku: FakeLLM) -> None:
         k=len(solutions),
         c=4,
         tot_strategy_class=SampleCoTStrategy,
+        callbacks=[StdOutCallbackHandler()],
+        #verbose_llm=True,
+        #verbose=True,
     )
     output = tot_chain.run({"problem_description": ""})
     assert output == sudoku_solution
